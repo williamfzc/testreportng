@@ -12,6 +12,9 @@ class NewCase(NGCase):
     def test_error(self):
         raise RuntimeError
 
+    def test_skip(self):
+        self.skipTest("test skip hook")
+
     def when_pass(self):
         print("pass :)")
 
@@ -20,6 +23,9 @@ class NewCase(NGCase):
 
     def when_error(self):
         print("error! x_x")
+
+    def when_skip(self):
+        print("skip now")
 
 
 if __name__ == "__main__":
