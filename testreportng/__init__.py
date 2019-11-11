@@ -22,10 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-__PROJECT_NAME__ = r"reportng"
+__PROJECT_NAME__ = r"testreportng"
 __AUTHOR__ = r"williamfzc"
 __AUTHOR_EMAIL__ = r"fengzc@vip.qq.com"
 __LICENSE__ = r"MIT"
-__URL__ = r"https://github.com/williamfzc/reportng"
+__URL__ = r"https://github.com/williamfzc/testreportng"
 __VERSION__ = r"0.1.0"
 __DESCRIPTION__ = r"next generation of test report, for unittest"

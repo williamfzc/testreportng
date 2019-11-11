@@ -1,7 +1,7 @@
 import typing
 import json
 
-from reportng.result import NGCaseResult
+from testreportng.result import NGCaseResult
 
 
 class NGCollector(object):

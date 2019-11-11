@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from reportng import (
+from testreportng import (
     __AUTHOR__,
     __AUTHOR_EMAIL__,
     __URL__,

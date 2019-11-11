@@ -1,4 +1,4 @@
-from reportng.case import NGCase
+from testreportng.case import NGCase
 import unittest
 
 
@@ -19,6 +19,8 @@ if __name__ == "__main__":
     runner.run(suite)
 
     result = NewCase.ng_result
+    print(result.to_json())
+
     for name, case in result.to_dict().items():
         print(f"case: {name}, result: {case}")
         print(type(case.error), case.error, case.traceback)

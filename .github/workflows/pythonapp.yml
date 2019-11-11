@@ -31,7 +31,7 @@ jobs:
       run: |
         pip install pytest
         pip install pytest-cov
-        pytest --cov=./reportng --cov-report=xml
+        pytest --cov=./testreportng --cov-report=xml
         pytest
       env:
         PYTHONPATH: .

@@ -1,6 +1,6 @@
 import unittest
 
-from reportng.collector import NGCaseResult, NGCollector
+from testreportng.collector import NGCaseResult, NGCollector
 
 
 class NGCase(unittest.TestCase):
