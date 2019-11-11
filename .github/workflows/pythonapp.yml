@@ -42,3 +42,8 @@ jobs:
         file: ./coverage.xml
         flags: unittests
         name: codecov-umbrella
+    - name: Test Example
+      run: |
+        cd example
+        python base.py
+        python hook.py
