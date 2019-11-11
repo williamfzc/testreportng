@@ -5,18 +5,18 @@ from reportng.collector import NGCaseResult, NGCollector
 
 class NGCase(unittest.TestCase):
     # default cls
-    _ng_result_cls = NGCaseResult
-    _ng_collector_cls = NGCollector
+    ng_result_cls = NGCaseResult
+    ng_collector_cls = NGCollector
 
-    # result
+    # result collector
     ng_result: NGCollector
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.ng_result: NGCollector = cls._ng_collector_cls()
+        cls.ng_result: NGCollector = cls.ng_collector_cls()
 
     def setUp(self) -> None:
-        cur = self._ng_result_cls(self._testMethodName)
+        cur = self.ng_result_cls(self._testMethodName)
         self.ng_result.set(cur)
 
     def tearDown(self) -> None:
