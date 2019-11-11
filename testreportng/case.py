@@ -18,7 +18,6 @@ class NGCase(unittest.TestCase):
             NGCaseDetail.STATUS_FAIL: "when_fail",
             NGCaseDetail.STATUS_ERROR: "when_error",
             NGCaseDetail.STATUS_SKIP: "when_skip",
-            NGCaseDetail.STATUS_INIT: "when_init",
         }
         assert name in mapping, f"hook [ {name} ] not found"
         target = mapping[name]
@@ -35,9 +34,6 @@ class NGCase(unittest.TestCase):
         pass
 
     def when_skip(self):
-        pass
-
-    def when_init(self):
         pass
 
     # origin hook
