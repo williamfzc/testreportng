@@ -34,6 +34,10 @@ class NGCase(unittest.TestCase):
         pass
 
     def when_skip(self):
+        # TODO actually this function does not work
+        pass
+
+    def when_always(self):
         pass
 
     # origin hook
@@ -54,3 +58,4 @@ class NGCase(unittest.TestCase):
 
         # ng hook
         self._start_hook(cur.status)
+        self.when_always()

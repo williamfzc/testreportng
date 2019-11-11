@@ -27,6 +27,9 @@ class NewCase(NGCase):
     def when_skip(self):
         print("skip now")
 
+    def when_always(self):
+        print("always")
+
 
 if __name__ == "__main__":
     runner = unittest.TextTestRunner()
