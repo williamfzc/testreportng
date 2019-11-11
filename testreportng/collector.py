@@ -8,8 +8,8 @@ class NGCollector(object):
     def __init__(self):
         self.result: typing.Dict[str, NGCaseResult] = dict()
 
-    def set(self, result: NGCaseResult):
-        self.result[result.name] = result
+    def set(self, cur: NGCaseResult):
+        self.result[cur.name] = cur
 
     def get(self, name: str) -> typing.Optional[NGCaseResult]:
         if name not in self.result:
