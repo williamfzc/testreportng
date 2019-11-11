@@ -1,3 +1,6 @@
+import traceback
+
+
 class NGCaseResult(object):
     STATUS_INIT: str = "init"
     STATUS_PASS: str = "pass"
@@ -17,6 +20,14 @@ class NGCaseResult(object):
         # error
         self.error = None
         self.traceback = None
+
+    def to_json_dict(self) -> dict:
+        return {
+            "name": self.name,
+            "status": self.status,
+            "error": repr(self.error) if self.error else "",
+            "traceback": traceback.format_tb(self.traceback) if self.traceback else "",
+        }
 
     @property
     def outcome(self):
