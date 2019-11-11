@@ -18,9 +18,16 @@ def test_smoke():
     runner.run(suite)
 
     result = NewCase.ng_result
-    print(result.to_json())
 
+    # functions check
+    print(result.to_json())
+    assert result.get("not_existed_case") is None
+    print(str(result))
+
+    # result check
     for name, case in result.to_dict().items():
+        print(case.outcome)
+        print(str(case))
         if name == "test_pass":
             assert case.status == case.STATUS_PASS
         elif name == "test_fail":
