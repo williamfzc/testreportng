@@ -13,6 +13,9 @@ def test_smoke():
         def test_error(self):
             raise RuntimeError
 
+        def test_skip(self):
+            self.skipTest("test skip hook")
+
     runner = unittest.TextTestRunner()
     suite = unittest.TestSuite(unittest.TestLoader().loadTestsFromTestCase(NewCase))
     runner.run(suite)
@@ -32,5 +35,8 @@ def test_smoke():
             assert case.status == case.STATUS_PASS
         elif name == "test_fail":
             assert case.status == case.STATUS_FAIL
+        elif name == "test_skip":
+            assert case.status == case.STATUS_SKIP
+            assert case.reason
         else:
             assert case.status == case.STATUS_ERROR
