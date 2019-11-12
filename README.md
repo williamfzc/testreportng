@@ -1,4 +1,4 @@
-# testreportng
+# testreport-ng
 
 
 [![PyPI version](https://badge.fury.io/py/testreportng.svg)](https://badge.fury.io/py/testreportng)
@@ -16,6 +16,10 @@ Because of its weird API, I have already felt tired to hack `unittest` again, ag
 Based on this repo, you can easily get results from cases or suites, build your own report, or something else. 
 
 ## example
+
+```bash
+pip install testreportng
+```
 
 `NGCase` is a subclass of `unittest.TestCase`, with result collector.
 
@@ -77,7 +81,7 @@ some eg:
 - oldani / [HtmlTestRunner](https://github.com/oldani/HtmlTestRunner)
 - ...
 
-actually they nearly do the same things, with lots of redundant codes between them.
+actually they nearly do the same things, with lots of redundant codes between them. I do not think build another runner is a good-enough idea to save our time.
 
 ## requirements
 
