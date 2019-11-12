@@ -44,7 +44,8 @@ class NGSuite(unittest.TestSuite):
                 test.debug()
 
             # collect results
-            self.ng_result[test.__class__.__name__] = test.ng_result
+            if not isinstance(test, NGSuite):
+                self.ng_result[test.__class__.__name__] = test.ng_result
 
             if self._cleanup:
                 self._removeTestAtIndex(index)
