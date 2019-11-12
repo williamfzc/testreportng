@@ -22,7 +22,7 @@ class NGResult(object):
     def to_json(self) -> str:
         r = dict()
         for name, result in self.result.items():
-            r[name] = result.to_json_dict()
+            r[name] = result.to_dict(safe_repr=True)
         return json.dumps(r)
 
     def __str__(self):

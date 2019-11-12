@@ -24,14 +24,18 @@ class NGCaseDetail(object):
         self.error = None
         self.traceback = None
 
-    def to_json_dict(self) -> dict:
-        return {
-            "name": self.name,
-            "status": self.status,
-            "reason": self.reason,
-            "error": repr(self.error) if self.error else "",
-            "traceback": traceback.format_tb(self.traceback) if self.traceback else "",
-        }
+    def to_dict(self, safe_repr: bool = None) -> dict:
+        if safe_repr:
+            return {
+                "name": self.name,
+                "status": self.status,
+                "reason": self.reason,
+                "error": repr(self.error) if self.error else "",
+                "traceback": traceback.format_tb(self.traceback)
+                if self.traceback
+                else "",
+            }
+        return self.__dict__
 
     @property
     def outcome(self):
