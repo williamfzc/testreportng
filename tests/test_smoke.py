@@ -32,6 +32,7 @@ def test_smoke():
     # result check
     for name, case in result.data.items():
         print(case.outcome)
+        print(case.to_json())
         print(str(case))
         print(case.to_dict())
         if name == "test_pass":
