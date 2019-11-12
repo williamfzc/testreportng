@@ -16,8 +16,11 @@ class NGResult(object):
             return None
         return self.result[name]
 
-    def to_dict(self) -> typing.Dict[str, NGCaseDetail]:
-        return self.result
+    def to_dict(self, safe_repr: bool = None) -> typing.Dict[str, dict]:
+        r = dict()
+        for name, result in self.result.items():
+            r[name] = result.to_dict(safe_repr=safe_repr)
+        return r
 
     def to_json(self) -> str:
         r = dict()
