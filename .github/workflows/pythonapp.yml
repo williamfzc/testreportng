@@ -47,3 +47,4 @@ jobs:
         cd example
         python base.py
         python hook.py
+        python suite.py

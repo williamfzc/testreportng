@@ -17,17 +17,25 @@ class NGCaseDetail(object):
         # data
         self._outcome = None
 
+        # skip
+        self.reason: str = ""
+
         # error
         self.error = None
         self.traceback = None
 
-    def to_json_dict(self) -> dict:
-        return {
-            "name": self.name,
-            "status": self.status,
-            "error": repr(self.error) if self.error else "",
-            "traceback": traceback.format_tb(self.traceback) if self.traceback else "",
-        }
+    def to_dict(self, safe_repr: bool = None) -> dict:
+        if safe_repr:
+            return {
+                "name": self.name,
+                "status": self.status,
+                "reason": self.reason,
+                "error": repr(self.error) if self.error else "",
+                "traceback": traceback.format_tb(self.traceback)
+                if self.traceback
+                else "",
+            }
+        return self.__dict__
 
     @property
     def outcome(self):
@@ -35,6 +43,13 @@ class NGCaseDetail(object):
 
     @outcome.setter
     def outcome(self, value):
+        # skipped
+        if value.skipped:
+            self.status = self.STATUS_SKIP
+            self.reason = value.skipped[0][1]
+            return
+
+        # normal test
         error = value.errors[1][1]
 
         # no error happened
