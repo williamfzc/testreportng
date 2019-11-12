@@ -2,7 +2,7 @@
 
 
 [![PyPI version](https://badge.fury.io/py/testreportng.svg)](https://badge.fury.io/py/testreportng)
-![CI Status](https://github.com/williamfzc/testreportng/workflows/Python%20application/badge.svg)  
+![CI Status](https://github.com/williamfzc/testreportng/workflows/Python%20application/badge.svg)
 [![codecov](https://codecov.io/gh/williamfzc/testreportng/branch/master/graph/badge.svg?token=18PMrmYcAk)](https://codecov.io/gh/williamfzc/testreportng)
 
 next generation of test report, for unittest.
@@ -54,7 +54,7 @@ more example:
 
 - [working with `suite`](./example/suite.py)
 - [hook](./example/hook.py)
-- build your own html report
+- [build your own html report](./example/report.py)
 - ...
 
 ## design
