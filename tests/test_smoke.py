@@ -30,9 +30,10 @@ def test_smoke():
     print(str(result))
 
     # result check
-    for name, case in result.to_dict().items():
+    for name, case in result.data.items():
         print(case.outcome)
         print(str(case))
+        print(case.to_dict())
         if name == "test_pass":
             assert case.status == case.STATUS_PASS
         elif name == "test_fail":
