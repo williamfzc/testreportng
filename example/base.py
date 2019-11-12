@@ -19,8 +19,21 @@ if __name__ == "__main__":
     runner.run(suite)
 
     result = NewCase.ng_result
+    # result: NGResult object
     print(result.to_json())
 
+    # you can access its data (dict) directly
     for name, case in result.data.items():
+        # name: case's name
+        # case: CaseDetail object
         print(f"case: {name}, result: {case}")
-        print(type(case.error), case.error, case.traceback)
+
+        # use CaseDetail directly
+        print(
+            case.name,
+            case.outcome,
+            case.status,
+            case.error,
+            case.traceback,
+            # ...
+        )

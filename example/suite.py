@@ -93,7 +93,11 @@ if __name__ == "__main__":
     )
     runner.run(suite)
 
+    # a little different between Suite and Case
+    # result is: typing.Dict[str, NGResult]
     result = suite.ng_result
     for each_name, each_suite in result.items():
+        # name: suite name
+        # suite: NGResult object
         print(each_name)
         print(each_suite)

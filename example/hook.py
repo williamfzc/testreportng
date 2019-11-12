@@ -15,6 +15,9 @@ class NewCase(NGCase):
     def test_skip(self):
         self.skipTest("test skip hook")
 
+    # there are 5 ng hooks you can use
+    # eg: when_pass will be executed when case passed
+    # see their docstring for details
     def when_pass(self):
         print("pass :)")
 
@@ -35,3 +38,5 @@ if __name__ == "__main__":
     runner = unittest.TextTestRunner()
     suite = unittest.TestSuite(unittest.TestLoader().loadTestsFromTestCase(NewCase))
     runner.run(suite)
+
+    # after that, you will see some contents from hook functions on your console.
