@@ -25,19 +25,21 @@ class NGCase(unittest.TestCase):
         return getattr(self, target)()
 
     def when_pass(self):
+        """ will execute when case passed """
         pass
 
     def when_fail(self):
-        pass
+        """ will execute when case failed """
 
     def when_error(self):
-        pass
+        """ will execute when case error """
 
     def when_skip(self):
-        # TODO actually this function does not work
+        """ will execute when case skipped """
         pass
 
     def when_always(self):
+        """ will execute after each cases """
         pass
 
     # origin hook

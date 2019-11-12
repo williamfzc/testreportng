@@ -1,9 +1,11 @@
 import unittest
 import typing
 
+from testreportng.result import NGResult
+
 
 class NGSuite(unittest.TestSuite):
-    ng_result = dict()
+    ng_result: typing.Dict[str, NGResult] = dict()
 
     def __init__(self, tests: typing.Iterable = ()):
         super(NGSuite, self).__init__(tests)

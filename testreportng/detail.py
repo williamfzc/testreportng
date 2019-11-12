@@ -1,4 +1,5 @@
 import traceback
+import json
 
 
 class NGCaseDetail(object):
@@ -24,7 +25,25 @@ class NGCaseDetail(object):
         self.error = None
         self.traceback = None
 
+    def to_json(self) -> str:
+        """
+        dump Detail to json string
+
+        :return:
+        """
+        res_dict = self.to_dict(safe_repr=True)
+        return json.dumps(res_dict)
+
     def to_dict(self, safe_repr: bool = None) -> dict:
+        """
+        dump Detail to dict, for easier usage by others
+
+        :param safe_repr:
+            bool.
+            dump all the objects to string if True.
+            default to False.
+        :return:
+        """
         if safe_repr:
             return {
                 "name": self.name,
@@ -39,10 +58,17 @@ class NGCaseDetail(object):
 
     @property
     def outcome(self):
+        """
+        origin _outcome. same as unittest.TestCase
+
+        :return:
+        """
         return self._outcome
 
     @outcome.setter
     def outcome(self, value):
+        self._outcome = value
+
         # skipped
         if value.skipped:
             self.status = self.STATUS_SKIP

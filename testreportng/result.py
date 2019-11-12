@@ -17,15 +17,27 @@ class NGResult(object):
         return self.data[name]
 
     def to_dict(self, safe_repr: bool = None) -> typing.Dict[str, dict]:
+        """
+        dump Result to dict, for easier usage by others
+
+        :param safe_repr:
+            bool.
+            dump all the objects to string if True.
+            default to False.
+        :return:
+        """
         r = dict()
         for name, result in self.data.items():
             r[name] = result.to_dict(safe_repr=safe_repr)
         return r
 
     def to_json(self) -> str:
-        r = dict()
-        for name, result in self.data.items():
-            r[name] = result.to_dict(safe_repr=True)
+        """
+        dump Detail to json string
+
+        :return:
+        """
+        r = self.to_dict(True)
         return json.dumps(r)
 
     def __str__(self):
