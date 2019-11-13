@@ -37,3 +37,6 @@ if __name__ == "__main__":
             case.traceback,
             # ...
         )
+
+    # or, a total summary?
+    print(result.summary())

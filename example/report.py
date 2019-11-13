@@ -114,9 +114,6 @@ if __name__ == "__main__":
     # building your own report has become very simple
     test_name = "example_test"
     html_template = Template(TEMPLATE)
-    content = html_template.render(
-        test_name=test_name,
-        test_result=result,
-    )
+    content = html_template.render(test_name=test_name, test_result=result)
     with open(f"{test_name}.html", "w+") as f:
         f.write(content)

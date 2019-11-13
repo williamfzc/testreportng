@@ -65,7 +65,7 @@ class HtmlReporter(object):
 
     @classmethod
     def render(
-            cls, test_name: str, result: typing.Union[typing.Dict[str, NGResult], NGResult]
+        cls, test_name: str, result: typing.Union[typing.Dict[str, NGResult], NGResult]
     ) -> str:
         html_template = Template(TEMPLATE)
         if isinstance(result, NGResult):

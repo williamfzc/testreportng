@@ -101,3 +101,4 @@ if __name__ == "__main__":
         # suite: NGResult object
         print(each_name)
         print(each_suite)
+        print(each_suite.summary())
