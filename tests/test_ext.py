@@ -22,5 +22,8 @@ def test_html_reporter():
     suite = NGSuite(NGLoader().loadTestsFromTestCase(NewCase))
     runner.run(suite)
     result = suite.ng_result
-    html_content = HtmlReporter.render("some_test", result)
-    assert html_content
+    assert HtmlReporter.render("some_test", result)
+
+    # render a Result object
+    result = result.values()[0]
+    assert HtmlReporter.render("some_test", result)

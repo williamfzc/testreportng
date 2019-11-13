@@ -28,6 +28,7 @@ def test_smoke():
     print(result.to_json())
     assert result.get("not_existed_case") is None
     print(str(result))
+    print(result.summary())
 
     # result check
     for name, case in result.data.items():
