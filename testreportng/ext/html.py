@@ -41,7 +41,7 @@ th {
     <th>status</th>
     <th>traceback</th>
   </tr>
-    
+
   {% for suite_name, each in test_result.items() %}
     {% for each_case_name, each_case in each.to_dict(safe_repr=True).items() %}
         <tr style="background-color: {{ color_dict[each_case.status] }}">
@@ -65,7 +65,7 @@ class HtmlReporter(object):
 
     @classmethod
     def render(
-        cls, test_name: str, result: typing.Union[typing.Dict[str, NGResult], NGResult]
+            cls, test_name: str, result: typing.Union[typing.Dict[str, NGResult], NGResult]
     ) -> str:
         html_template = Template(TEMPLATE)
         if isinstance(result, NGResult):
