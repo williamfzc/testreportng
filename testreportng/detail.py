@@ -1,6 +1,8 @@
 import traceback
 import json
 
+from testreportng.utils import get_timestamp
+
 
 class NGCaseDetail(object):
     STATUS_INIT: str = "init"
@@ -25,6 +27,11 @@ class NGCaseDetail(object):
         self.error = None
         self.traceback = None
 
+        # time
+        self.start_time: str = get_timestamp(human=True)
+        self.end_time: str = ""
+        self.duration: str = ""
+
     def to_json(self) -> str:
         """
         dump Detail to json string
@@ -45,14 +52,20 @@ class NGCaseDetail(object):
         :return:
         """
         if safe_repr:
+            error = repr(self.error) if self.error else ""
+            traceback_str = (
+                traceback.format_tb(self.traceback) if self.traceback else ""
+            )
+
             return {
                 "name": self.name,
                 "status": self.status,
                 "reason": self.reason,
-                "error": repr(self.error) if self.error else "",
-                "traceback": traceback.format_tb(self.traceback)
-                if self.traceback
-                else "",
+                "error": error,
+                "traceback": traceback_str,
+                "start_time": self.start_time,
+                "end_time": self.end_time,
+                "duration": self.duration,
             }
         return self.__dict__
 
@@ -91,6 +104,10 @@ class NGCaseDetail(object):
 
         self.error = error[1]
         self.traceback = error[2]
+
+        # time
+        self.end_time = get_timestamp(human=True)
+        self.duration = str(int(self.end_time) - int(self.start_time))
 
     def __str__(self):
         return f"<{__class__.__name__} name={self.name} status={self.status}>"
