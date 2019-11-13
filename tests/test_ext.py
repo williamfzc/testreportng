@@ -25,5 +25,5 @@ def test_html_reporter():
     assert HtmlReporter.render("some_test", result)
 
     # render a Result object
-    result = result.values()[0]
+    result = list(result.values())[0]
     assert HtmlReporter.render("some_test", result)
