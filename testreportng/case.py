@@ -45,7 +45,7 @@ class NGCase(unittest.TestCase):
     # origin hook
     @classmethod
     def setUpClass(cls) -> None:
-        cls.ng_result: NGResult = cls.ng_result_kls()
+        cls.ng_result: NGResult = cls.ng_result_kls(cls.__name__)
 
     def setUp(self) -> None:
         # init this case

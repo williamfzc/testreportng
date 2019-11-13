@@ -5,7 +5,8 @@ from testreportng.detail import NGCaseDetail
 
 
 class NGResult(object):
-    def __init__(self):
+    def __init__(self, kls_name: str):
+        self.kls_name: str = kls_name
         self.data: typing.Dict[str, NGCaseDetail] = dict()
 
     def set(self, cur: NGCaseDetail):
@@ -15,6 +16,20 @@ class NGResult(object):
         if name not in self.data:
             return None
         return self.data[name]
+
+    def summary(self) -> dict:
+        result: typing.Dict[str, int] = {
+            "name": self.kls_name,
+            "total": len(self.data),
+            NGCaseDetail.STATUS_PASS: 0,
+            NGCaseDetail.STATUS_FAIL: 0,
+            NGCaseDetail.STATUS_ERROR: 0,
+            NGCaseDetail.STATUS_SKIP: 0,
+        }
+
+        for each in self.data.values():
+            result[each.status] += 1
+        return result
 
     def to_dict(self, safe_repr: bool = None) -> typing.Dict[str, dict]:
         """
