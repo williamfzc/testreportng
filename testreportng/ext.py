@@ -2,6 +2,15 @@ from jinja2 import Template
 import typing
 
 from testreportng.result import NGResult
+from testreportng.case import NGCaseDetail
+
+COLOR_DICT = {
+    NGCaseDetail.STATUS_PASS: "#dff0d8",
+    NGCaseDetail.STATUS_FAIL: "#fcf8e3",
+    NGCaseDetail.STATUS_ERROR: "#f2dede",
+    NGCaseDetail.STATUS_SKIP: "#ffffff",
+    NGCaseDetail.STATUS_INIT: "#ffffff",
+}
 
 TEMPLATE = r"""
 <!DOCTYPE html>
@@ -35,7 +44,7 @@ th {
     
   {% for suite_name, each in test_result.items() %}
     {% for each_case_name, each_case in each.to_dict(safe_repr=True).items() %}
-        <tr>
+        <tr style="background-color: {{ color_dict[each_case.status] }}">
           <td>{{ suite_name }}</td>
           <td>{{ each_case_name }}</td>
           <td>{{ each_case.status }}</td>
@@ -55,10 +64,12 @@ class HtmlReporter(object):
     _default_test_name = "default"
 
     @classmethod
-    def render(cls, test_name: str, result: typing.Union[typing.Dict[str, NGResult], NGResult]) -> str:
+    def render(
+        cls, test_name: str, result: typing.Union[typing.Dict[str, NGResult], NGResult]
+    ) -> str:
         html_template = Template(TEMPLATE)
         if isinstance(result, NGResult):
-            result = {
-                cls._default_test_name: result,
-            }
-        return html_template.render(test_name=test_name, test_result=result)
+            result = {cls._default_test_name: result}
+        return html_template.render(
+            test_name=test_name, test_result=result, color_dict=COLOR_DICT
+        )
