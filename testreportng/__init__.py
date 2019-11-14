@@ -28,9 +28,10 @@ __AUTHOR__ = r"williamfzc"
 __AUTHOR_EMAIL__ = r"fengzc@vip.qq.com"
 __LICENSE__ = r"MIT"
 __URL__ = r"https://github.com/williamfzc/testreportng"
-__VERSION__ = r"0.1.0"
+__VERSION__ = r"0.2.0"
 __DESCRIPTION__ = r"next generation of test report, for unittest"
 
 # api
 from testreportng.case import NGCase
 from testreportng.suite import NGSuite, NGLoader
+from testreportng.result import NGResult
