@@ -60,14 +60,19 @@ pass>}
 # to json string?
 print(result.to_json())
 """
-{"test_error": {"name": "test_error", "status": "error", "reason": "", "error": "RuntimeError()", "traceback": ["  File \"C:\\Python37\\lib\\unittest\\case.py\", lin
-e 59, in testPartExecutor\n    yield\n", "  File \"C:\\Python37\\lib\\unittest\\case.py\", line 628, in run\n    testMethod()\n", "  File \"aaa.py\", line 13, in tes
-t_error\n    raise RuntimeError\n"], "start_time": "20191114141643483", "end_time": "20191114141643483", "duration": "0"}, "test_fail": {"name": "test_fail", "status
-": "fail", "reason": "", "error": "AssertionError('False is not true')", "traceback": ["  File \"C:\\Python37\\lib\\unittest\\case.py\", line 59, in testPartExecutor
-\n    yield\n", "  File \"C:\\Python37\\lib\\unittest\\case.py\", line 628, in run\n    testMethod()\n", "  File \"aaa.py\", line 10, in test_fail\n    self.assertTr
-ue(False)\n", "  File \"C:\\Python37\\lib\\unittest\\case.py\", line 705, in assertTrue\n    raise self.failureException(msg)\n"], "start_time": "20191114141643485",
- "end_time": "20191114141643485", "duration": "0"}, "test_pass": {"name": "test_pass", "status": "pass", "reason": "", "error": "", "traceback": "", "start_time": "2
-0191114141643486", "end_time": "", "duration": ""}}
+{
+	"test_error": {
+		"name": "test_error",
+		"status": "error",
+		"reason": "",
+		"error": "RuntimeError()",
+		"traceback": ["  File \"C:\\Python37\\lib\\unittest\\case.py\", lin ... "]
+		"start_time": "20191114141643485",
+		"end_time": "20191114141643485",
+		"duration": "0"
+	},
+    ...
+}
 """
 
 # or, you prefer a dict
@@ -76,7 +81,7 @@ for name, case in result.to_dict().items():
     # ...
 ```
 
-Based on it, building plugins has become very simple. You can use built-in plugins in `ext` for different kinds of functions, such as HTML report (this plugin contains only 10 lines of code except html template)?
+Based on it, building plugins has become very simple. You can use built-in plugins in `ext` for different kinds of functions, such as HTML report?
 
 ```python
 runner = unittest.TextTestRunner()
@@ -91,7 +96,7 @@ with open("your_report.html", "w+") as f:
 
 you can see a html report ...
 
-![html.png](https://i.loli.net/2019/11/14/jbxNSpCgvadGAuE.png)
+![report.png](https://i.loli.net/2019/11/14/HGJDKSbizkMrEX6.png)
 
 more example:
 
