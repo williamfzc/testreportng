@@ -14,10 +14,10 @@ class NGCase(unittest.TestCase):
     # ng hook
     def _start_hook(self, name: str):
         mapping = {
-            NGCaseDetail.STATUS_PASS: "when_pass",
-            NGCaseDetail.STATUS_FAIL: "when_fail",
-            NGCaseDetail.STATUS_ERROR: "when_error",
-            NGCaseDetail.STATUS_SKIP: "when_skip",
+            NGCaseDetail.LABEL_STATUS_PASS: "when_pass",
+            NGCaseDetail.LABEL_STATUS_FAIL: "when_fail",
+            NGCaseDetail.LABEL_STATUS_ERROR: "when_error",
+            NGCaseDetail.LABEL_STATUS_SKIP: "when_skip",
         }
         assert name in mapping, f"hook [ {name} ] not found"
         target = mapping[name]

@@ -5,9 +5,24 @@ from testreportng.detail import NGCaseDetail
 
 
 class NGResult(object):
+    LABEL_NAME: str = "name"
+    LABEL_TOTAL: str = "total"
+    LABEL_CASE_NAME: str = NGCaseDetail.LABEL_CASE_NAME
+    LABEL_STATUS: str = NGCaseDetail.LABEL_STATUS
+    LABEL_REASON: str = NGCaseDetail.LABEL_REASON
+    LABEL_ERROR: str = NGCaseDetail.LABEL_ERROR
+    LABEL_TRACEBACK: str = NGCaseDetail.LABEL_TRACEBACK
+    LABEL_START_TIME: str = NGCaseDetail.LABEL_START_TIME
+    LABEL_END_TIME: str = NGCaseDetail.LABEL_END_TIME
+    LABEL_DURATION: str = NGCaseDetail.LABEL_DURATION
+
     def __init__(self, kls_name: str):
         self.kls_name: str = kls_name
         self.data: typing.Dict[str, NGCaseDetail] = dict()
+
+        self.start_time: str = min([each.start_time for each in self.data.values()])
+        self.end_time: str = max([each.end_time for each in self.data.values()])
+        self.duration: str = str(int(self.end_time) - int(self.start_time))
 
     def set(self, cur: NGCaseDetail):
         self.data[cur.name] = cur
@@ -19,12 +34,16 @@ class NGResult(object):
 
     def summary(self) -> dict:
         result: typing.Dict[str, int] = {
-            "name": self.kls_name,
-            "total": len(self.data),
-            NGCaseDetail.STATUS_PASS: 0,
-            NGCaseDetail.STATUS_FAIL: 0,
-            NGCaseDetail.STATUS_ERROR: 0,
-            NGCaseDetail.STATUS_SKIP: 0,
+            self.LABEL_NAME: self.kls_name,
+            self.LABEL_TOTAL: len(self.data),
+            self.LABEL_START_TIME: self.start_time,
+            self.LABEL_END_TIME: self.end_time,
+            self.LABEL_DURATION: self.duration,
+            # cases
+            NGCaseDetail.LABEL_STATUS_PASS: 0,
+            NGCaseDetail.LABEL_STATUS_FAIL: 0,
+            NGCaseDetail.LABEL_STATUS_ERROR: 0,
+            NGCaseDetail.LABEL_STATUS_SKIP: 0,
         }
 
         for each in self.data.values():

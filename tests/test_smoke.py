@@ -37,14 +37,14 @@ def test_smoke():
         print(str(case))
         print(case.to_dict())
         if name == "test_pass":
-            assert case.status == case.STATUS_PASS
+            assert case.status == case.LABEL_STATUS_PASS
         elif name == "test_fail":
-            assert case.status == case.STATUS_FAIL
+            assert case.status == case.LABEL_STATUS_FAIL
         elif name == "test_skip":
-            assert case.status == case.STATUS_SKIP
+            assert case.status == case.LABEL_STATUS_SKIP
             assert case.reason
         else:
-            assert case.status == case.STATUS_ERROR
+            assert case.status == case.LABEL_STATUS_ERROR
 
     for suite_name, each_suite in suite_result.items():
         assert suite_name
