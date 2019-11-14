@@ -36,29 +36,68 @@ class NewCase(NGCase):
         self.assertTrue(False)
 
     def test_error(self):
-        raise RuntimeError
+        raise RuntimeError("some error")
 
+# same as unittest.TestCase
+runner = unittest.TextTestRunner()
+suite = unittest.TestSuite(unittest.TestLoader().loadTestsFromTestCase(NewCase))
+runner.run(suite)
 
-if __name__ == "__main__":
-    # same as unittest.TestCase
-    runner = unittest.TextTestRunner()
-    suite = unittest.TestSuite(unittest.TestLoader().loadTestsFromTestCase(NewCase))
-    runner.run(suite)
-    
-    # after running, you can access results easily (NGResult object)
-    result = NewCase.ng_result
-    print(result.to_json())
+# after running, you can access results easily (NGResult object)
+result = NewCase.ng_result
 
-    for name, case in result.to_dict().items():
-        print(f"case: {name}, result: {case}")
-        print(type(case.error), case.error, case.traceback)
+# get summary?
+print(result.summary())
+# {'name': 'NewCase', 'total': 3, 'pass': 1, 'fail': 1, 'error': 1, 'skip': 0}
+
+# programmable?
+print(result.data)
+"""
+{'test_error': <NGCaseDetail name=test_error status=error>, 'test_fail': <NGCaseDetail name=test_fail status=fail>, 'test_pass': <NGCaseDetail name=test_pass status=
+pass>}
+"""
+
+# to json string?
+print(result.to_json())
+"""
+{"test_error": {"name": "test_error", "status": "error", "reason": "", "error": "RuntimeError()", "traceback": ["  File \"C:\\Python37\\lib\\unittest\\case.py\", lin
+e 59, in testPartExecutor\n    yield\n", "  File \"C:\\Python37\\lib\\unittest\\case.py\", line 628, in run\n    testMethod()\n", "  File \"aaa.py\", line 13, in tes
+t_error\n    raise RuntimeError\n"], "start_time": "20191114141643483", "end_time": "20191114141643483", "duration": "0"}, "test_fail": {"name": "test_fail", "status
+": "fail", "reason": "", "error": "AssertionError('False is not true')", "traceback": ["  File \"C:\\Python37\\lib\\unittest\\case.py\", line 59, in testPartExecutor
+\n    yield\n", "  File \"C:\\Python37\\lib\\unittest\\case.py\", line 628, in run\n    testMethod()\n", "  File \"aaa.py\", line 10, in test_fail\n    self.assertTr
+ue(False)\n", "  File \"C:\\Python37\\lib\\unittest\\case.py\", line 705, in assertTrue\n    raise self.failureException(msg)\n"], "start_time": "20191114141643485",
+ "end_time": "20191114141643485", "duration": "0"}, "test_pass": {"name": "test_pass", "status": "pass", "reason": "", "error": "", "traceback": "", "start_time": "2
+0191114141643486", "end_time": "", "duration": ""}}
+"""
+
+# or, you prefer a dict
+for name, case in result.to_dict().items():
+    print(f"case: {name}, result: {case}")
+    # ...
 ```
+
+Based on it, building plugins has become very simple. You can use built-in plugins in `ext` for different kinds of functions, such as HTML report (this plugin contains only 10 lines of code except html template)?
+
+```python
+runner = unittest.TextTestRunner()
+suite = unittest.TestSuite(unittest.TestLoader().loadTestsFromTestCase(NewCase))
+runner.run(suite)
+
+result = NewCase.ng_result
+html = HtmlReporter.render("YOUR_TEST_NAME", result)
+with open("your_report.html", "w+") as f:
+    f.write(html)
+```
+
+you can see a html report ...
+
+![html.png](https://i.loli.net/2019/11/14/jbxNSpCgvadGAuE.png)
 
 more example:
 
-- [working with `suite`](./example/suite.py)
-- [hook](./example/hook.py)
-- [build your own html report](./example/report.py)
+- [in production: working with `suite`](./example/suite.py)
+- [flexible hook](./example/hook.py)
+- [build your own html report easily](./example/report.py)
 - ...
 
 ## design
