@@ -20,10 +20,6 @@ class NGResult(object):
         self.kls_name: str = kls_name
         self.data: typing.Dict[str, NGCaseDetail] = dict()
 
-        self.start_time: str = min([each.start_time for each in self.data.values()])
-        self.end_time: str = max([each.end_time for each in self.data.values()])
-        self.duration: str = str(int(self.end_time) - int(self.start_time))
-
     def set(self, cur: NGCaseDetail):
         self.data[cur.name] = cur
 
@@ -31,6 +27,18 @@ class NGResult(object):
         if name not in self.data:
             return None
         return self.data[name]
+
+    @property
+    def start_time(self) -> str:
+        return min([each.start_time for each in self.data.values()])
+
+    @property
+    def end_time(self) -> str:
+        return max([each.end_time for each in self.data.values()])
+
+    @property
+    def duration(self) -> str:
+        return str(int(self.end_time) - int(self.start_time))
 
     def summary(self) -> dict:
         result: typing.Dict[str, int] = {
