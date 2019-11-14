@@ -81,6 +81,8 @@ class NGCaseDetail(object):
     @outcome.setter
     def outcome(self, value):
         self._outcome = value
+        self.end_time = get_timestamp(human=True)
+        self.duration = str(int(self.end_time) - int(self.start_time))
 
         # skipped
         if value.skipped:
@@ -104,10 +106,6 @@ class NGCaseDetail(object):
 
         self.error = error[1]
         self.traceback = error[2]
-
-        # time
-        self.end_time = get_timestamp(human=True)
-        self.duration = str(int(self.end_time) - int(self.start_time))
 
     def __str__(self):
         return f"<{__class__.__name__} name={self.name} status={self.status}>"
