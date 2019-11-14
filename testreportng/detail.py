@@ -1,7 +1,9 @@
 import traceback
 import json
+import datetime
+import typing
 
-from testreportng.utils import get_timestamp
+from testreportng.utils import get_timestamp, timestamp2str
 
 
 class NGCaseDetail(object):
@@ -39,9 +41,9 @@ class NGCaseDetail(object):
         self.traceback = None
 
         # time
-        self.start_time: str = get_timestamp(human=True)
-        self.end_time: str = ""
-        self.duration: str = ""
+        self.start_time: datetime.datetime = get_timestamp()
+        self.end_time: typing.Optional[datetime.datetime] = None
+        self.duration: typing.Optional[datetime.timedelta] = None
 
     def to_json(self) -> str:
         """
@@ -67,6 +69,9 @@ class NGCaseDetail(object):
             traceback_str = (
                 traceback.format_tb(self.traceback) if self.traceback else ""
             )
+            start_time: str = timestamp2str(self.start_time)
+            end_time: str = timestamp2str(self.end_time)
+            duration: float = self.duration.total_seconds()
 
             return {
                 self.LABEL_CASE_NAME: self.name,
@@ -74,9 +79,9 @@ class NGCaseDetail(object):
                 self.LABEL_REASON: self.reason,
                 self.LABEL_ERROR: error,
                 self.LABEL_TRACEBACK: traceback_str,
-                self.LABEL_START_TIME: self.start_time,
-                self.LABEL_END_TIME: self.end_time,
-                self.LABEL_DURATION: self.duration,
+                self.LABEL_START_TIME: start_time,
+                self.LABEL_END_TIME: end_time,
+                self.LABEL_DURATION: duration,
             }
         return self.__dict__
 
@@ -92,8 +97,8 @@ class NGCaseDetail(object):
     @outcome.setter
     def outcome(self, value):
         self._outcome = value
-        self.end_time = get_timestamp(human=True)
-        self.duration = str(int(self.end_time) - int(self.start_time))
+        self.end_time = get_timestamp()
+        self.duration = self.end_time - self.start_time
 
         # skipped
         if value.skipped:

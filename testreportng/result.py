@@ -1,5 +1,6 @@
 import typing
 import json
+import datetime
 
 from testreportng.detail import NGCaseDetail
 
@@ -29,16 +30,16 @@ class NGResult(object):
         return self.data[name]
 
     @property
-    def start_time(self) -> str:
+    def start_time(self) -> datetime.datetime:
         return min([each.start_time for each in self.data.values()])
 
     @property
-    def end_time(self) -> str:
+    def end_time(self) -> datetime.datetime:
         return max([each.end_time for each in self.data.values()])
 
     @property
-    def duration(self) -> str:
-        return str(int(self.end_time) - int(self.start_time))
+    def duration(self) -> float:
+        return (self.end_time - self.start_time).total_seconds()
 
     def summary(self) -> dict:
         result: typing.Dict[str, int] = {
@@ -86,3 +87,23 @@ class NGResult(object):
         return f"<{__class__.__name__} result={self.data}>"
 
     __repr__ = __str__
+
+
+class NGResultOperator(object):
+    def __init__(self):
+        self.data: typing.Set[NGResult] = set()
+
+    def add(self, new: NGResult):
+        self.data.add(new)
+
+    def remove(self, old: NGResult):
+        self.data.remove(old)
+
+    def get_start_time(self) -> datetime.datetime:
+        return min([each.start_time for each in self.data])
+
+    def get_end_time(self) -> datetime.datetime:
+        return max([each.end_time for each in self.data])
+
+    def get_duration(self) -> float:
+        return (self.get_end_time() - self.get_start_time()).total_seconds()
