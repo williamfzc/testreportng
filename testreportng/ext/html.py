@@ -2,7 +2,7 @@ from jinja2 import Template
 import typing
 from collections import defaultdict
 
-from testreportng.result import NGResult
+from testreportng.result import NGResult, NGResultOperator
 from testreportng.case import NGCaseDetail
 
 COLOR_DICT = {
@@ -92,17 +92,9 @@ class HtmlReporter(object):
             result = {cls._default_test_name: result}
 
         summary_dict = defaultdict(int)
-        first = list(result.values())[0]
-        start_time: str = first.start_time
-        end_time: str = first.end_time
-        duration: int = 0
-
         for each_result in result.values():
             summary = each_result.summary()
-            # duration
-            start_time = min((each_result.start_time, start_time))
-            end_time = max((each_result.end_time, end_time))
-            duration += int(summary[NGResult.LABEL_DURATION])
+
             # case
             for k, v in summary.items():
                 if k in (
@@ -114,10 +106,12 @@ class HtmlReporter(object):
                 ):
                     summary_dict[k] += v
 
+        result_operator = NGResultOperator()
+        result_operator.load(result)
         summary_dict = dict(summary_dict)
-        summary_dict[NGResult.LABEL_START_TIME] = start_time
-        summary_dict[NGResult.LABEL_END_TIME] = end_time
-        summary_dict[NGResult.LABEL_DURATION] = duration
+        summary_dict[NGResult.LABEL_START_TIME] = result_operator.get_start_time()
+        summary_dict[NGResult.LABEL_END_TIME] = result_operator.get_end_time()
+        summary_dict[NGResult.LABEL_DURATION] = result_operator.get_duration()
 
         return html_template.render(
             test_name=test_name,

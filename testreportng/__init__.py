@@ -34,4 +34,4 @@ __DESCRIPTION__ = r"next generation of test report, for unittest"
 # api
 from testreportng.case import NGCase
 from testreportng.suite import NGSuite, NGLoader
-from testreportng.result import NGResult
+from testreportng.result import NGResult, NGResultOperator

@@ -6,6 +6,7 @@ from testreportng.detail import NGCaseDetail
 
 
 class NGResult(object):
+    """ result of suite """
     LABEL_NAME: str = "name"
     LABEL_TOTAL: str = "total"
     LABEL_CASE_NAME: str = NGCaseDetail.LABEL_CASE_NAME
@@ -90,14 +91,22 @@ class NGResult(object):
 
 
 class NGResultOperator(object):
+    """ high level operator over multi Result objects """
     def __init__(self):
         self.data: typing.Set[NGResult] = set()
+
+    def load(self, suite_dict: typing.Dict[str, NGResult]):
+        for each in suite_dict.values():
+            self.data.add(each)
 
     def add(self, new: NGResult):
         self.data.add(new)
 
     def remove(self, old: NGResult):
         self.data.remove(old)
+
+    def reset(self):
+        self.data = set()
 
     def get_start_time(self) -> datetime.datetime:
         return min([each.start_time for each in self.data])
