@@ -101,8 +101,8 @@ you can see a html report ...
 more example:
 
 - [in production: working with `suite`](./example/suite.py)
-- [flexible hook](./example/hook.py)
 - [build your own html report easily](./example/report.py)
+- [flexible hook](./example/hook.py)
 - ...
 
 ## design
@@ -125,7 +125,7 @@ some eg:
 - oldani / [HtmlTestRunner](https://github.com/oldani/HtmlTestRunner)
 - ...
 
-actually they nearly do the same things, with lots of redundant codes between them. I do not think build another runner is a good-enough idea to save our time.
+actually they nearly do the same things, with lots of redundant codes between them. Maybe they are good, but we should not waste too much time on doing the same things.
 
 ## requirements
 
