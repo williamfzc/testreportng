@@ -3,20 +3,11 @@ import json
 import datetime
 
 from testreportng.detail import NGCaseDetail
+from testreportng.constants import Label
 
 
 class NGResult(object):
     """ result of suite """
-    LABEL_NAME: str = "name"
-    LABEL_TOTAL: str = "total"
-    LABEL_CASE_NAME: str = NGCaseDetail.LABEL_CASE_NAME
-    LABEL_STATUS: str = NGCaseDetail.LABEL_STATUS
-    LABEL_REASON: str = NGCaseDetail.LABEL_REASON
-    LABEL_ERROR: str = NGCaseDetail.LABEL_ERROR
-    LABEL_TRACEBACK: str = NGCaseDetail.LABEL_TRACEBACK
-    LABEL_START_TIME: str = NGCaseDetail.LABEL_START_TIME
-    LABEL_END_TIME: str = NGCaseDetail.LABEL_END_TIME
-    LABEL_DURATION: str = NGCaseDetail.LABEL_DURATION
 
     def __init__(self, kls_name: str):
         self.kls_name: str = kls_name
@@ -29,6 +20,9 @@ class NGResult(object):
         if name not in self.data:
             return None
         return self.data[name]
+
+    def get_data_by_label(self, label_name: str):
+        return self.summary()[label_name]
 
     @property
     def start_time(self) -> datetime.datetime:
@@ -44,16 +38,16 @@ class NGResult(object):
 
     def summary(self) -> dict:
         result: typing.Dict[str, int] = {
-            self.LABEL_NAME: self.kls_name,
-            self.LABEL_TOTAL: len(self.data),
-            self.LABEL_START_TIME: self.start_time,
-            self.LABEL_END_TIME: self.end_time,
-            self.LABEL_DURATION: self.duration,
+            Label.LABEL_NAME: self.kls_name,
+            Label.LABEL_TOTAL: len(self.data),
+            Label.LABEL_START_TIME: self.start_time,
+            Label.LABEL_END_TIME: self.end_time,
+            Label.LABEL_DURATION: self.duration,
             # cases
-            NGCaseDetail.LABEL_STATUS_PASS: 0,
-            NGCaseDetail.LABEL_STATUS_FAIL: 0,
-            NGCaseDetail.LABEL_STATUS_ERROR: 0,
-            NGCaseDetail.LABEL_STATUS_SKIP: 0,
+            Label.LABEL_STATUS_PASS: 0,
+            Label.LABEL_STATUS_FAIL: 0,
+            Label.LABEL_STATUS_ERROR: 0,
+            Label.LABEL_STATUS_SKIP: 0,
         }
 
         for each in self.data.values():
@@ -92,6 +86,7 @@ class NGResult(object):
 
 class NGResultOperator(object):
     """ high level operator over multi Result objects """
+
     def __init__(self):
         self.data: typing.Set[NGResult] = set()
 
@@ -116,3 +111,6 @@ class NGResultOperator(object):
 
     def get_duration(self) -> float:
         return (self.get_end_time() - self.get_start_time()).total_seconds()
+
+    def get_total_case_count(self) -> int:
+        return sum([each.get_data_by_label(Label.LABEL_TOTAL) for each in self.data])

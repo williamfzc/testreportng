@@ -4,29 +4,13 @@ import datetime
 import typing
 
 from testreportng.utils import get_timestamp, timestamp2str
+from testreportng.constants import Label
 
 
 class NGCaseDetail(object):
-    # status
-    LABEL_STATUS_INIT: str = "init"
-    LABEL_STATUS_PASS: str = "pass"
-    LABEL_STATUS_FAIL: str = "fail"
-    LABEL_STATUS_ERROR: str = "error"
-    LABEL_STATUS_SKIP: str = "skip"
-
-    # others
-    LABEL_CASE_NAME: str = "name"
-    LABEL_STATUS: str = "status"
-    LABEL_REASON: str = "reason"
-    LABEL_ERROR: str = "error"
-    LABEL_TRACEBACK: str = "traceback"
-    LABEL_START_TIME: str = "start_time"
-    LABEL_END_TIME: str = "end_time"
-    LABEL_DURATION: str = "duration"
-
     def __init__(self, name: str, status: str = None):
         if not status:
-            status = self.LABEL_STATUS_INIT
+            status = Label.LABEL_STATUS_INIT
         self.name: str = name
         self.status: str = status
 
@@ -74,14 +58,14 @@ class NGCaseDetail(object):
             duration: float = self.duration.total_seconds()
 
             return {
-                self.LABEL_CASE_NAME: self.name,
-                self.LABEL_STATUS: self.status,
-                self.LABEL_REASON: self.reason,
-                self.LABEL_ERROR: error,
-                self.LABEL_TRACEBACK: traceback_str,
-                self.LABEL_START_TIME: start_time,
-                self.LABEL_END_TIME: end_time,
-                self.LABEL_DURATION: duration,
+                Label.LABEL_CASE_NAME: self.name,
+                Label.LABEL_STATUS: self.status,
+                Label.LABEL_REASON: self.reason,
+                Label.LABEL_ERROR: error,
+                Label.LABEL_TRACEBACK: traceback_str,
+                Label.LABEL_START_TIME: start_time,
+                Label.LABEL_END_TIME: end_time,
+                Label.LABEL_DURATION: duration,
             }
         return self.__dict__
 
@@ -102,7 +86,7 @@ class NGCaseDetail(object):
 
         # skipped
         if value.skipped:
-            self.status = self.LABEL_STATUS_SKIP
+            self.status = Label.LABEL_STATUS_SKIP
             self.reason = value.skipped[0][1]
             return
 
@@ -111,14 +95,14 @@ class NGCaseDetail(object):
 
         # no error happened
         if not error:
-            self.status = self.LABEL_STATUS_PASS
+            self.status = Label.LABEL_STATUS_PASS
             return
 
         # error or fail
         if error[0] is AssertionError:
-            self.status = self.LABEL_STATUS_FAIL
+            self.status = Label.LABEL_STATUS_FAIL
         else:
-            self.status = self.LABEL_STATUS_ERROR
+            self.status = Label.LABEL_STATUS_ERROR
 
         self.error = error[1]
         self.traceback = error[2]
