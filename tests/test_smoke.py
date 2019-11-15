@@ -1,5 +1,7 @@
 from testreportng import NGLoader, NGCase, NGSuite
 from testreportng.result import NGResult
+from testreportng.constants import Label
+
 import unittest
 
 
@@ -37,14 +39,14 @@ def test_smoke():
         print(str(case))
         print(case.to_dict())
         if name == "test_pass":
-            assert case.status == case.LABEL_STATUS_PASS
+            assert case.status == Label.LABEL_STATUS_PASS
         elif name == "test_fail":
-            assert case.status == case.LABEL_STATUS_FAIL
+            assert case.status == Label.LABEL_STATUS_FAIL
         elif name == "test_skip":
-            assert case.status == case.LABEL_STATUS_SKIP
+            assert case.status == Label.LABEL_STATUS_SKIP
             assert case.reason
         else:
-            assert case.status == case.LABEL_STATUS_ERROR
+            assert case.status == Label.LABEL_STATUS_ERROR
 
     for suite_name, each_suite in suite_result.items():
         assert suite_name

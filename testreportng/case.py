@@ -1,6 +1,7 @@
 import unittest
 
 from testreportng.result import NGCaseDetail, NGResult
+from testreportng.constants import Label
 
 
 class NGCase(unittest.TestCase):
@@ -14,10 +15,10 @@ class NGCase(unittest.TestCase):
     # ng hook
     def _start_hook(self, name: str):
         mapping = {
-            NGCaseDetail.LABEL_STATUS_PASS: "when_pass",
-            NGCaseDetail.LABEL_STATUS_FAIL: "when_fail",
-            NGCaseDetail.LABEL_STATUS_ERROR: "when_error",
-            NGCaseDetail.LABEL_STATUS_SKIP: "when_skip",
+            Label.LABEL_STATUS_PASS: "when_pass",
+            Label.LABEL_STATUS_FAIL: "when_fail",
+            Label.LABEL_STATUS_ERROR: "when_error",
+            Label.LABEL_STATUS_SKIP: "when_skip",
         }
         assert name in mapping, f"hook [ {name} ] not found"
         target = mapping[name]

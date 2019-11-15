@@ -4,13 +4,13 @@ import unittest
 
 class NewCase(NGCase):
     def test_pass(self):
-        self.assertTrue(True)
+        self.assertTrue(True, "aaa")
 
     def test_fail(self):
-        self.assertTrue(False)
+        self.assertTrue(False, "bbb")
 
     def test_error(self):
-        raise RuntimeError
+        raise RuntimeError("ccc")
 
 
 if __name__ == "__main__":
@@ -19,8 +19,6 @@ if __name__ == "__main__":
     runner.run(suite)
 
     result = NewCase.ng_result
-    # result: NGResult object
-    print(result.to_json())
 
     # you can access its data (dict) directly
     for name, case in result.data.items():
