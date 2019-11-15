@@ -1,4 +1,4 @@
-from testreportng.case import NGCase
+from testreportng import NGCase
 import unittest
 
 

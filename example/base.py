@@ -1,4 +1,5 @@
 from testreportng import NGCase
+from testreportng import NGResult
 import unittest
 
 
@@ -18,7 +19,8 @@ if __name__ == "__main__":
     suite = unittest.TestSuite(unittest.TestLoader().loadTestsFromTestCase(NewCase))
     runner.run(suite)
 
-    result = NewCase.ng_result
+    # NGCase.ng_result: NGResult
+    result: NGResult = NewCase.ng_result
 
     # you can access its data (dict) directly
     for name, case in result.data.items():

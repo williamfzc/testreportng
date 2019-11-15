@@ -1,6 +1,6 @@
-from testreportng.case import NGCase
-from testreportng.suite import NGSuite, NGLoader
+from testreportng import NGResult, NGCase, NGLoader, NGSuite
 import unittest
+import typing
 
 # need jinja2 for rendering
 from jinja2 import Template
@@ -109,7 +109,7 @@ if __name__ == "__main__":
         )
     )
     runner.run(suite)
-    result = suite.ng_result
+    result: typing.Dict[str, NGResult] = suite.ng_result
 
     # building your own report has become very simple
     test_name = "example_test"

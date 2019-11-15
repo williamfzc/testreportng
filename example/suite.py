@@ -1,6 +1,6 @@
-from testreportng.case import NGCase
-from testreportng.suite import NGSuite, NGLoader
+from testreportng import NGResult, NGCase, NGLoader, NGSuite, NGResultOperator
 import unittest
+import typing
 
 
 class NewCase(NGCase):
@@ -93,12 +93,21 @@ if __name__ == "__main__":
     )
     runner.run(suite)
 
-    # a little different between Suite and Case
-    # result is: typing.Dict[str, NGResult]
-    result = suite.ng_result
+    # NGSuite.ng_result: typing.Dict[str, NGResult]
+    result: typing.Dict[str, NGResult] = suite.ng_result
+
+    # is a dict
     for each_name, each_suite in result.items():
         # name: suite name
         # suite: NGResult object
         print(each_name)
         print(each_suite)
         print(each_suite.summary())
+
+    # or, you can use NGResultOperator to handle this dict easily
+    operator = NGResultOperator()
+    # load this dict
+    operator.load(result)
+    # call its API!
+    # get total summary of these suites ?
+    print(operator.summary())

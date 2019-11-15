@@ -137,5 +137,7 @@ class NGResultOperator(object):
             Label.LABEL_STATUS_ERROR,
             Label.LABEL_STATUS_SKIP,
         )
-        assert case_type in type_list, f"status {case_type} should be one of {type_list}"
+        assert (
+            case_type in type_list
+        ), f"status {case_type} should be one of {type_list}"
         return sum([each.get_data_by_label(case_type) for each in self.data])
