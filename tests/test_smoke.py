@@ -1,5 +1,5 @@
 from testreportng import NGLoader, NGCase, NGSuite
-from testreportng.result import NGResult
+from testreportng.result import NGResult, NGResultOperator
 from testreportng.constants import Label
 
 import unittest
@@ -25,6 +25,18 @@ def test_smoke():
 
     result = NewCase.ng_result
     suite_result = suite.ng_result
+
+    # result operator
+    operator = NGResultOperator()
+    operator.add(result)
+    assert operator.data
+    operator.remove(result)
+    assert not operator.data
+    operator.add(result)
+    operator.reset()
+    assert not operator.data
+    operator.add(result)
+    print(operator.summary())
 
     # functions check
     print(result.to_json())
