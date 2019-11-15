@@ -1,16 +1,15 @@
 from jinja2 import Template
 import typing
-from collections import defaultdict
 
 from testreportng.result import NGResult, NGResultOperator
-from testreportng.case import NGCaseDetail
+from testreportng.constants import Label
 
 COLOR_DICT = {
-    NGCaseDetail.LABEL_STATUS_PASS: "#dff0d8",
-    NGCaseDetail.LABEL_STATUS_FAIL: "#fcf8e3",
-    NGCaseDetail.LABEL_STATUS_ERROR: "#f2dede",
-    NGCaseDetail.LABEL_STATUS_SKIP: "#ffffff",
-    NGCaseDetail.LABEL_STATUS_INIT: "#ffffff",
+    Label.LABEL_STATUS_PASS: "#dff0d8",
+    Label.LABEL_STATUS_FAIL: "#fcf8e3",
+    Label.LABEL_STATUS_ERROR: "#f2dede",
+    Label.LABEL_STATUS_SKIP: "#ffffff",
+    Label.LABEL_STATUS_INIT: "#ffffff",
 }
 
 TEMPLATE = r"""
@@ -91,31 +90,13 @@ class HtmlReporter(object):
         if isinstance(result, NGResult):
             result = {cls._default_test_name: result}
 
-        summary_dict = defaultdict(int)
-        for each_result in result.values():
-            summary = each_result.summary()
-
-            # case
-            for k, v in summary.items():
-                if k in (
-                    NGCaseDetail.LABEL_STATUS_PASS,
-                    NGCaseDetail.LABEL_STATUS_FAIL,
-                    NGCaseDetail.LABEL_ERROR,
-                    NGCaseDetail.LABEL_STATUS_SKIP,
-                    NGResult.LABEL_TOTAL,
-                ):
-                    summary_dict[k] += v
-
         result_operator = NGResultOperator()
         result_operator.load(result)
-        summary_dict = dict(summary_dict)
-        summary_dict[NGResult.LABEL_START_TIME] = result_operator.get_start_time()
-        summary_dict[NGResult.LABEL_END_TIME] = result_operator.get_end_time()
-        summary_dict[NGResult.LABEL_DURATION] = result_operator.get_duration()
+        summary = result_operator.summary()
 
         return html_template.render(
             test_name=test_name,
-            summary=summary_dict,
+            summary=summary,
             test_result=result,
             color_dict=COLOR_DICT,
         )

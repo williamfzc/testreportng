@@ -22,7 +22,9 @@ class NGResult(object):
         return self.data[name]
 
     def get_data_by_label(self, label_name: str):
-        return self.summary()[label_name]
+        summary = self.summary()
+        assert label_name in summary, f"label {label_name} not in summary"
+        return summary[label_name]
 
     @property
     def start_time(self) -> datetime.datetime:
@@ -112,5 +114,28 @@ class NGResultOperator(object):
     def get_duration(self) -> float:
         return (self.get_end_time() - self.get_start_time()).total_seconds()
 
-    def get_total_case_count(self) -> int:
-        return sum([each.get_data_by_label(Label.LABEL_TOTAL) for each in self.data])
+    def summary(self) -> typing.Dict:
+        result = {}
+        for each_label in (
+            Label.LABEL_TOTAL,
+            Label.LABEL_STATUS_PASS,
+            Label.LABEL_STATUS_FAIL,
+            Label.LABEL_STATUS_ERROR,
+            Label.LABEL_STATUS_SKIP,
+        ):
+            result[each_label] = self.get_case_count(each_label)
+        result[Label.LABEL_START_TIME] = self.get_start_time()
+        result[Label.LABEL_END_TIME] = self.get_end_time()
+        result[Label.LABEL_DURATION] = self.get_duration()
+        return result
+
+    def get_case_count(self, case_type: str) -> int:
+        type_list = (
+            Label.LABEL_TOTAL,
+            Label.LABEL_STATUS_PASS,
+            Label.LABEL_STATUS_FAIL,
+            Label.LABEL_STATUS_ERROR,
+            Label.LABEL_STATUS_SKIP,
+        )
+        assert case_type in type_list, f"status {case_type} should be one of {type_list}"
+        return sum([each.get_data_by_label(case_type) for each in self.data])
