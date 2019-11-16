@@ -13,6 +13,7 @@ class Label(object):
 
     # others
     LABEL_CASE_NAME: str = "name"
+    LABEL_PASS_RATE: str = "pass_rate"
     LABEL_STATUS: str = "status"
     LABEL_REASON: str = "reason"
     LABEL_ERROR: str = "error"

@@ -43,6 +43,7 @@ def test_smoke():
     assert result.get("not_existed_case") is None
     print(str(result))
     print(result.summary())
+    print(result.pass_rate)
 
     # result check
     for name, case in result.data.items():

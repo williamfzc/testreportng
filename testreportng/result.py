@@ -38,23 +38,48 @@ class NGResult(object):
     def duration(self) -> float:
         return (self.end_time - self.start_time).total_seconds()
 
+    @property
+    def total_num(self) -> int:
+        return len(self.data)
+
+    @property
+    def pass_num(self) -> int:
+        return len([each.is_passed() for each in self.data.values()])
+
+    @property
+    def fail_num(self) -> int:
+        return len([each.is_failed() for each in self.data.values()])
+
+    @property
+    def error_num(self) -> int:
+        return len([each.is_error() for each in self.data.values()])
+
+    @property
+    def skip_num(self) -> int:
+        return len([each.is_skipped() for each in self.data.values()])
+
+    @property
+    def fail_or_error_num(self) -> int:
+        return self.fail_num + self.error_num
+
+    @property
+    def pass_rate(self) -> float:
+        return self.pass_num / self.total_num
+
     def summary(self) -> dict:
-        result: typing.Dict[str, int] = {
+        return {
             Label.LABEL_NAME: self.kls_name,
-            Label.LABEL_TOTAL: len(self.data),
+            Label.LABEL_TOTAL: self.total_num,
             Label.LABEL_START_TIME: self.start_time,
             Label.LABEL_END_TIME: self.end_time,
             Label.LABEL_DURATION: self.duration,
+            Label.LABEL_PASS_RATE: self.pass_rate,
             # cases
-            Label.LABEL_STATUS_PASS: 0,
-            Label.LABEL_STATUS_FAIL: 0,
-            Label.LABEL_STATUS_ERROR: 0,
-            Label.LABEL_STATUS_SKIP: 0,
+            Label.LABEL_STATUS_PASS: self.pass_num,
+            Label.LABEL_STATUS_FAIL: self.fail_num,
+            Label.LABEL_STATUS_ERROR: self.error_num,
+            Label.LABEL_STATUS_SKIP: self.skip_num,
         }
-
-        for each in self.data.values():
-            result[each.status] += 1
-        return result
 
     def to_dict(self, safe_repr: bool = None) -> typing.Dict[str, dict]:
         """

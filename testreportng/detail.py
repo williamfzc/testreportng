@@ -3,7 +3,7 @@ import json
 import datetime
 import typing
 
-from testreportng.utils import get_timestamp, timestamp2str
+from testreportng.utils import timestamp2str
 from testreportng.constants import Label
 
 
@@ -28,6 +28,18 @@ class NGCaseDetail(object):
         self.start_time: typing.Optional[datetime.datetime] = None
         self.end_time: typing.Optional[datetime.datetime] = None
         self.duration: typing.Optional[datetime.timedelta] = None
+
+    def is_passed(self) -> bool:
+        return self.status == Label.LABEL_STATUS_PASS
+
+    def is_failed(self) -> bool:
+        return self.status == Label.LABEL_STATUS_FAIL
+
+    def is_error(self) -> bool:
+        return self.status == Label.LABEL_STATUS_ERROR
+
+    def is_skipped(self) -> bool:
+        return self.status == Label.LABEL_STATUS_SKIP
 
     def to_json(self) -> str:
         """
