@@ -25,7 +25,7 @@ class NGCaseDetail(object):
         self.traceback = None
 
         # time
-        self.start_time: datetime.datetime = get_timestamp()
+        self.start_time: typing.Optional[datetime.datetime] = None
         self.end_time: typing.Optional[datetime.datetime] = None
         self.duration: typing.Optional[datetime.timedelta] = None
 
@@ -81,8 +81,6 @@ class NGCaseDetail(object):
     @outcome.setter
     def outcome(self, value):
         self._outcome = value
-        self.end_time = get_timestamp()
-        self.duration = self.end_time - self.start_time
 
         # skipped
         if value.skipped:

@@ -2,6 +2,7 @@ import unittest
 
 from testreportng.result import NGCaseDetail, NGResult
 from testreportng.constants import Label
+from testreportng.utils import get_timestamp
 
 
 class NGCase(unittest.TestCase):
@@ -51,11 +52,16 @@ class NGCase(unittest.TestCase):
     def setUp(self) -> None:
         # init this case
         cur = self.ng_detail_kls(self._testMethodName)
+        # time record
+        cur.start_time = get_timestamp()
         self.ng_result.set(cur)
 
     def tearDown(self) -> None:
         # update case's result
         cur = self.ng_result.get(self._testMethodName)
+        # time record
+        cur.end_time = get_timestamp()
+        cur.duration = cur.end_time - cur.start_time
         cur.outcome = getattr(self, "_outcome")
         self.ng_result.set(cur)
 
