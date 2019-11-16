@@ -9,9 +9,9 @@ from testreportng.constants import Label
 class NGResult(object):
     """ result of suite """
 
-    def __init__(self, kls_name: str):
+    def __init__(self, kls_name: str, data: typing.Dict[str, NGCaseDetail] = None):
         self.kls_name: str = kls_name
-        self.data: typing.Dict[str, NGCaseDetail] = dict()
+        self.data: typing.Dict[str, NGCaseDetail] = data or dict()
 
     def set(self, cur: NGCaseDetail):
         self.data[cur.name] = cur
@@ -40,23 +40,23 @@ class NGResult(object):
 
     @property
     def total_num(self) -> int:
-        return len(self.data)
+        return len(self.data.values())
 
     @property
     def pass_num(self) -> int:
-        return len([each.is_passed() for each in self.data.values()])
+        return len([each for each in self.data.values() if each.is_passed()])
 
     @property
     def fail_num(self) -> int:
-        return len([each.is_failed() for each in self.data.values()])
+        return len([each for each in self.data.values() if each.is_failed()])
 
     @property
     def error_num(self) -> int:
-        return len([each.is_error() for each in self.data.values()])
+        return len([each for each in self.data.values() if each.is_error()])
 
     @property
     def skip_num(self) -> int:
-        return len([each.is_skipped() for each in self.data.values()])
+        return len([each for each in self.data.values() if each.is_skipped()])
 
     @property
     def fail_or_error_num(self) -> int:
