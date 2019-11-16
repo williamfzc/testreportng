@@ -44,6 +44,7 @@ def test_smoke():
     print(str(result))
     print(result.summary())
     print(result.pass_rate)
+    print(result.fail_or_error_num)
 
     # result check
     for name, case in result.data.items():

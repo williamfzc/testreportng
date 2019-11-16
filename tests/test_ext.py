@@ -1,5 +1,5 @@
 from testreportng.ext import HtmlReporter
-from testreportng import NGCase, NGSuite, NGLoader
+from testreportng import NGCase, NGSuite, NGLoader, NGResultOperator
 
 import unittest
 
@@ -23,6 +23,10 @@ def test_html_reporter():
     runner.run(suite)
     result = suite.ng_result
     assert HtmlReporter.render("some_test", result)
+
+    # test on merged result
+    merged = NGResultOperator.merge("some_test", result)
+    assert HtmlReporter.render("some_test", merged)
 
     # render a Result object
     result = list(result.values())[0]
