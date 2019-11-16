@@ -3,6 +3,8 @@ from testreportng import NGCase, NGSuite, NGLoader, NGResultOperator
 
 import unittest
 
+TEST_NAME = "test_name"
+
 
 def test_html_reporter():
     class NewCase(NGCase):
@@ -22,12 +24,15 @@ def test_html_reporter():
     suite = NGSuite(NGLoader().loadTestsFromTestCase(NewCase))
     runner.run(suite)
     result = suite.ng_result
-    assert HtmlReporter.render("some_test", result)
+    assert HtmlReporter.render(TEST_NAME, result)
 
     # test on merged result
-    merged = NGResultOperator.merge("some_test", result)
-    assert HtmlReporter.render("some_test", merged)
+    merged = NGResultOperator.merge(TEST_NAME, result)
+    assert HtmlReporter.render(TEST_NAME, merged)
 
     # render a Result object
     result = list(result.values())[0]
-    assert HtmlReporter.render("some_test", result)
+    assert HtmlReporter.render(TEST_NAME, result)
+
+    # sorted by status
+    assert HtmlReporter.render(TEST_NAME, result, sorted_by_status=True)
