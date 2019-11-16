@@ -21,10 +21,13 @@ class NGResult(object):
             return None
         return self.data[name]
 
-    def get_data_by_label(self, label_name: str):
+    def get_count_by_label(self, label_name: str):
         summary = self.summary()
         assert label_name in summary, f"label {label_name} not in summary"
         return summary[label_name]
+
+    def get_data_by_status(self, label_name: str) -> typing.Dict[str, NGCaseDetail]:
+        return {_: v for _, v in self.data.items() if v.status == label_name}
 
     @property
     def start_time(self) -> datetime.datetime:
@@ -119,6 +122,7 @@ class NGResultOperator(object):
 
     def load(self, suite_dict: typing.Dict[str, NGResult]):
         for each in suite_dict.values():
+            print(f"load: {each}")
             self.data.add(each)
 
     @staticmethod
@@ -130,6 +134,11 @@ class NGResultOperator(object):
                 new_case_name: str = f"{each_suite_name}.{each_case.name}"
                 new_data[new_case_name] = each_case
         return NGResult(suite_name, new_data)
+
+    def get_data_by_status(self, label_name: str) -> typing.Dict[str, NGCaseDetail]:
+        format_dict = {v.kls_name: v for v in self.data}
+        suite = self.merge("", format_dict)
+        return suite.get_data_by_status(label_name)
 
     def add(self, new: NGResult):
         self.data.add(new)
@@ -175,4 +184,4 @@ class NGResultOperator(object):
         assert (
             case_type in type_list
         ), f"status {case_type} should be one of {type_list}"
-        return sum([each.get_data_by_label(case_type) for each in self.data])
+        return sum([each.get_count_by_label(case_type) for each in self.data])
