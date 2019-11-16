@@ -108,6 +108,9 @@ if __name__ == "__main__":
     operator = NGResultOperator()
     # load this dict
     operator.load(result)
-    # call its API!
+    # merge all the suites into one
+    new_suite = operator.merge("test suite name", result)
+    print(new_suite.summary())
+    # call its API !!
     # get total summary of these suites ?
     print(operator.summary())

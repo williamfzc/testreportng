@@ -121,6 +121,16 @@ class NGResultOperator(object):
         for each in suite_dict.values():
             self.data.add(each)
 
+    @staticmethod
+    def merge(suite_name: str, suite_dict: typing.Dict[str, NGResult]) -> NGResult:
+        new_data: typing.Dict[str, NGCaseDetail] = dict()
+
+        for each_suite_name, result in suite_dict.items():
+            for each_case in result.data.values():
+                new_case_name: str = f"{each_suite_name}.{each_case.name}"
+                new_data[new_case_name] = each_case
+        return NGResult(suite_name, new_data)
+
     def add(self, new: NGResult):
         self.data.add(new)
 
