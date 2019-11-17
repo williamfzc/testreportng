@@ -33,6 +33,3 @@ def test_html_reporter():
     # render a Result object
     result = list(result.values())[0]
     assert HtmlReporter.render(TEST_NAME, result)
-
-    # sorted by status
-    assert HtmlReporter.render(TEST_NAME, result, sorted_by_status=True)

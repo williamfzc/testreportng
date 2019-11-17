@@ -87,45 +87,26 @@ class HtmlReporter(object):
 
     @classmethod
     def render(
-        cls,
-        test_name: str,
-        result: typing.Union[typing.Dict[str, NGResult], NGResult],
-        sorted_by_status: bool = None,
+        cls, test_name: str, result: typing.Union[typing.Dict[str, NGResult], NGResult]
     ) -> str:
         html_template = Template(TEMPLATE)
         # re-format
         if isinstance(result, NGResult):
-            result = {test_name: result}
+            result = {result.kls_name: result}
 
         result_operator = NGResultOperator()
         result_operator.load(result)
         summary = result_operator.summary()
 
-        # sorted by status, eg: error -> fail -> pass -> skip
-        if sorted_by_status:
-            sorted_result = OrderedDict()
-            for each_label in (
-                Label.LABEL_STATUS_ERROR,
-                Label.LABEL_STATUS_FAIL,
-                Label.LABEL_STATUS_PASS,
-                Label.LABEL_STATUS_SKIP,
-            ):
-                cur = result_operator.get_data_by_status(each_label)
-                for case_name, data in cur.items():
-                    sorted_result[case_name] = data
-            # cover
-            result = {test_name: sorted_result}
-        else:
-            # wrap to dict
-            new_result = dict()
-            for k, v in result.items():
-                new_result[k] = v.to_dict(safe_repr=True)
-            result = new_result
+        # wrap to dict
+        new_result = dict()
+        for k, v in result.items():
+            new_result[k] = v.to_dict(safe_repr=True)
+        result = new_result
 
         return html_template.render(
             test_name=test_name,
             summary=summary,
             test_result=result,
             color_dict=COLOR_DICT,
-            sorted_by_status=sorted_by_status,
         )

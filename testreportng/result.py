@@ -122,7 +122,6 @@ class NGResultOperator(object):
 
     def load(self, suite_dict: typing.Dict[str, NGResult]):
         for each in suite_dict.values():
-            print(f"load: {each}")
             self.data.add(each)
 
     @staticmethod
@@ -135,10 +134,13 @@ class NGResultOperator(object):
                 new_data[new_case_name] = each_case
         return NGResult(suite_name, new_data)
 
-    def get_data_by_status(self, label_name: str) -> typing.Dict[str, NGCaseDetail]:
-        format_dict = {v.kls_name: v for v in self.data}
-        suite = self.merge("", format_dict)
-        return suite.get_data_by_status(label_name)
+    def get_data_by_status(
+        self, label_name: str
+    ) -> typing.Dict[str, typing.Dict[str, NGCaseDetail]]:
+        ret = dict()
+        for each in self.data:
+            ret[each.kls_name] = each.get_data_by_status(label_name)
+        return ret
 
     def add(self, new: NGResult):
         self.data.add(new)
