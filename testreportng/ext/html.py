@@ -19,64 +19,74 @@ COLOR_DICT = {
 TEMPLATE = r"""
 <!DOCTYPE html>
 <html>
-<head>
-<title>{{ test_name }}</title>
-
-<style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-th, td {
-  padding: 5px;
-}
-th {
-  text-align: left;
-}
-</style>
-</head>
-
-<body>
-<h1>{{ test_name }}</h1>
-
-<h2>Summary</h2>
-<table style="width:90%">
-  <tr>
-    {% for title, count in summary.items() %}
-      <th>{{ title }}</th>
-    {% endfor %}
-  </tr>
-
-  <tr">
-    {% for title, count in summary.items() %}
-      <td>{{ count }}</td>
-    {% endfor %}
-  </tr>
-  
-</table>
-
-<h2>Result</h2>
-<table style="width:90%">
-  <tr>
-    <th>suite</th>
-    <th>case</th>
-    <th>status</th>
-    <th>traceback</th>
-  </tr>
-
-  {% for suite_name, each in test_result.items() %}
-    {% for each_case_name, each_case in each.items() %}
-        <tr style="background-color: {{ color_dict[each_case.status] }}">
-          <td>{{ suite_name }}</td>
-          <td>{{ each_case_name }}</td>
-          <td>{{ each_case.status }}</td>
-          <td>{{ each_case.traceback }}</td>
-        </tr>
-    {% endfor %}
-  {% endfor %}
-</table>
-
-</body>
+   <head>
+      <title>{{ test_name }}</title>
+      <style>
+         table, th, td {
+         border: 1px solid black;
+         border-collapse: collapse;
+         }
+         th, td {
+         padding: 5px;
+         }
+         th {
+         text-align: left;
+         }
+      </style>
+   </head>
+   <body>
+      <h1>{{ test_name }}</h1>
+      <h2>Summary</h2>
+      <table style="width:90%">
+         <tr>
+            {% for title, count in summary.items() %}
+            <th>{{ title }}</th>
+            {% endfor %}
+         </tr>
+         <tr">
+         {% for title, count in summary.items() %}
+         <td>{{ count }}</td>
+         {% endfor %}
+         </tr>
+      </table>
+      <h2>Result</h2>
+      <div id="users">
+         {% if not offline %}
+         <button class="sort" data-sort="status">
+         sorted by status!
+         </button>
+         {% endif %}
+         <table style="width:90%">
+            <tr>
+               <th>suite</th>
+               <th>case</th>
+               <th>status</th>
+               <th>traceback</th>
+            </tr>
+            <tbody class="list">
+               {% for suite_name, each in test_result.items() %}
+               {% for each_case_name, each_case in each.items() %}
+               <tr style="background-color: {{ color_dict[each_case.status] }}">
+                  <td class="suite">{{ suite_name }}</td>
+                  <td class="name">{{ each_case_name }}</td>
+                  <td class="status">{{ each_case.status }}</td>
+                  <td>{{ each_case.traceback }}</td>
+               </tr>
+               {% endfor %}
+               {% endfor %}
+            </tbody>
+         </table>
+      </div>
+      {% if not offline %}
+      <script src="http://cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+      <script>
+         var options = {
+           valueNames: [ 'suite', 'case', 'status' ],
+         };
+         var userList = new List('users', options);
+      </script>
+      {% endif %}
+   </body>
 </html>
 """
 
@@ -87,7 +97,10 @@ class HtmlReporter(object):
 
     @classmethod
     def render(
-        cls, test_name: str, result: typing.Union[typing.Dict[str, NGResult], NGResult]
+        cls,
+        test_name: str,
+        result: typing.Union[typing.Dict[str, NGResult], NGResult],
+        offline: bool = True,
     ) -> str:
         html_template = Template(TEMPLATE)
         # re-format
@@ -109,4 +122,5 @@ class HtmlReporter(object):
             summary=summary,
             test_result=result,
             color_dict=COLOR_DICT,
+            offline=offline,
         )
