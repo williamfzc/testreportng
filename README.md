@@ -103,6 +103,7 @@ more example:
 - [in production: working with `suite`](./example/suite.py)
 - [build your own html report easily](./example/report.py)
 - [flexible hook](./example/hook.py)
+- [use built-in html report](./example/ext.py)
 - ...
 
 ## design
