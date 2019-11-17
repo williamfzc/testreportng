@@ -1,4 +1,5 @@
 import unittest
+import typing
 
 from testreportng.result import NGCaseDetail, NGResult
 from testreportng.constants import Label
@@ -12,6 +13,7 @@ class NGCase(unittest.TestCase):
 
     # result inst
     ng_result: NGResult
+    cur_detail: typing.Optional[ng_detail_kls]
 
     # ng hook
     def _start_hook(self, name: str):
@@ -28,7 +30,6 @@ class NGCase(unittest.TestCase):
 
     def when_pass(self):
         """ will execute when case passed """
-        pass
 
     def when_fail(self):
         """ will execute when case failed """
@@ -38,11 +39,9 @@ class NGCase(unittest.TestCase):
 
     def when_skip(self):
         """ will execute when case skipped """
-        pass
 
     def when_always(self):
         """ will execute after each cases """
-        pass
 
     # origin hook
     @classmethod
@@ -54,6 +53,8 @@ class NGCase(unittest.TestCase):
         cur = self.ng_detail_kls(self._testMethodName)
         # time record
         cur.start_time = get_timestamp()
+        # save the pointer of current case (function)
+        self.cur_detail = cur
         self.ng_result.set(cur)
 
     def tearDown(self) -> None:
@@ -68,3 +69,6 @@ class NGCase(unittest.TestCase):
         # ng hook
         self._start_hook(cur.status)
         self.when_always()
+
+        # unbind
+        self.cur_detail = None
