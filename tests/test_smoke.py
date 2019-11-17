@@ -37,6 +37,7 @@ def test_smoke():
     assert not operator.data
     operator.add(result)
     print(operator.summary())
+    print(operator.get_data_by_status(Label.LABEL_STATUS_PASS))
 
     # functions check
     print(result.to_json())
