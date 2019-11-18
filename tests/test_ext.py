@@ -1,4 +1,5 @@
 from testreportng.ext import HtmlReporter
+from testreportng.ext.html import TEMPLATE
 from testreportng import NGCase, NGSuite, NGLoader, NGResultOperator
 
 import unittest
@@ -33,3 +34,6 @@ def test_html_reporter():
     # render a Result object
     result = list(result.values())[0]
     assert HtmlReporter.render(TEST_NAME, result)
+
+    # custom HTML
+    assert HtmlReporter.render(TEST_NAME, result, with_template=TEMPLATE)

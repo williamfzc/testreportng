@@ -101,8 +101,13 @@ class HtmlReporter(object):
         test_name: str,
         result: typing.Union[typing.Dict[str, NGResult], NGResult],
         offline: bool = True,
+        with_template: bool = None,
     ) -> str:
-        html_template = Template(TEMPLATE)
+        # custom template
+        if with_template:
+            html_template = Template(with_template)
+        else:
+            html_template = Template(TEMPLATE)
         # re-format
         if isinstance(result, NGResult):
             result = {result.kls_name: result}
