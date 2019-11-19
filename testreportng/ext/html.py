@@ -61,6 +61,7 @@ TEMPLATE = r"""
                <th>suite</th>
                <th>case</th>
                <th>status</th>
+               <th>error</th>
                <th>traceback</th>
             </tr>
             <tbody class="list">
@@ -70,6 +71,7 @@ TEMPLATE = r"""
                   <td class="suite">{{ suite_name }}</td>
                   <td class="name">{{ each_case_name }}</td>
                   <td class="status">{{ each_case.status }}</td>
+                  <td class="status">{{ each_case.error }}</td>
                   <td>{{ each_case.traceback }}</td>
                </tr>
                {% endfor %}
