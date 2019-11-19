@@ -59,15 +59,13 @@ class NGCase(unittest.TestCase):
 
     def tearDown(self) -> None:
         # update case's result
-        cur = self.ng_result.get(self._testMethodName)
-        # time record
-        cur.end_time = get_timestamp()
-        cur.duration = cur.end_time - cur.start_time
-        cur.outcome = getattr(self, "_outcome")
-        self.ng_result.set(cur)
+        self.cur_detail.end_time = get_timestamp()
+        self.cur_detail.duration = self.cur_detail.end_time - self.cur_detail.start_time
+        self.cur_detail.outcome = getattr(self, "_outcome")
+        self.ng_result.set(self.cur_detail)
 
         # ng hook
-        self._start_hook(cur.status)
+        self._start_hook(self.cur_detail.status)
         self.when_always()
 
         # unbind
