@@ -42,6 +42,7 @@ def test_smoke():
     # functions check
     print(result.to_json())
     assert result.get("not_existed_case") is None
+    assert result.get(list(result.data.keys())[0])
     print(str(result))
     print(result.summary())
     print(result.pass_rate)
