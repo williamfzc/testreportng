@@ -43,7 +43,7 @@ TEMPLATE = r"""
             <th>{{ title }}</th>
             {% endfor %}
          </tr>
-         <tr">
+         <tr>
          {% for title, count in summary.items() %}
          <td>{{ count }}</td>
          {% endfor %}
