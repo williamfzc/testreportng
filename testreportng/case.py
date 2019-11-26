@@ -13,7 +13,7 @@ class NGCase(unittest.TestCase):
 
     # result inst
     ng_result: NGResult
-    cur_detail: typing.Optional[ng_detail_kls]
+    ng_cur_result: typing.Optional[ng_detail_kls]
 
     # ng hook
     def _start_hook(self, name: str):
@@ -43,30 +43,39 @@ class NGCase(unittest.TestCase):
     def when_always(self):
         """ will execute after each cases """
 
-    # origin hook
+    # wrap for origin hook
     @classmethod
-    def setUpClass(cls) -> None:
+    def ng_setup_class(cls) -> None:
         cls.ng_result: NGResult = cls.ng_result_kls(cls.__name__)
 
-    def setUp(self) -> None:
+    def ng_setup(self) -> None:
         # init this case
         cur = self.ng_detail_kls(self._testMethodName)
         # time record
         cur.start_time = get_timestamp()
         # save the pointer of current case (function)
-        self.cur_detail = cur
+        self.ng_cur_result = cur
         self.ng_result.set(cur)
 
-    def tearDown(self) -> None:
+    def ng_teardown(self) -> None:
         # update case's result
-        self.cur_detail.end_time = get_timestamp()
-        self.cur_detail.duration = self.cur_detail.end_time - self.cur_detail.start_time
-        self.cur_detail.outcome = getattr(self, "_outcome")
-        self.ng_result.set(self.cur_detail)
+        self.ng_cur_result.end_time = get_timestamp()
+        self.ng_cur_result.duration = self.ng_cur_result.end_time - self.ng_cur_result.start_time
+        self.ng_cur_result.outcome = getattr(self, "_outcome")
+        self.ng_result.set(self.ng_cur_result)
 
         # ng hook
-        self._start_hook(self.cur_detail.status)
+        self._start_hook(self.ng_cur_result.status)
         self.when_always()
 
         # unbind
-        self.cur_detail = None
+        self.ng_cur_result = None
+
+    # origin hook
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.ng_setup_class()
+
+    def setUp(self) -> None:
+        self.ng_setup()
+        self.addCleanup(self.ng_teardown)
