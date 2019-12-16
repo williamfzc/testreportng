@@ -30,15 +30,20 @@ class NGResult(object):
         return {_: v for _, v in self.data.items() if v.status == label_name}
 
     @property
-    def start_time(self) -> datetime.datetime:
-        return min([each.start_time for each in self.data.values()])
+    def start_time(self) -> typing.Optional[datetime.datetime]:
+        result = [each.start_time for each in self.data.values()]
+        return min(result) if result else None
 
     @property
     def end_time(self) -> datetime.datetime:
-        return max([each.end_time for each in self.data.values()])
+        result = [each.end_time for each in self.data.values()]
+        return max(result) if result else None
 
     @property
     def duration(self) -> float:
+        if not (self.start_time and self.end_time):
+            return 0.0
+
         return (self.end_time - self.start_time).total_seconds()
 
     @property
@@ -67,6 +72,10 @@ class NGResult(object):
 
     @property
     def pass_rate(self) -> float:
+        # no case
+        if not self.total_num:
+            return 0.0
+
         return self.pass_num / self.total_num
 
     def summary(self) -> dict:

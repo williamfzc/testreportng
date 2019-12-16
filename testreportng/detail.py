@@ -101,7 +101,11 @@ class NGCaseDetail(object):
             return
 
         # normal test
-        error = value.errors[1][1]
+        error_list = value.errors
+        if len(error_list) == 1:
+            error = value.errors[0][1]
+        else:
+            error = value.errors[1][1]
 
         # no error happened
         if not error:
