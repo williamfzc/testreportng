@@ -161,10 +161,12 @@ class NGResultOperator(object):
         self.data = set()
 
     def get_start_time(self) -> datetime.datetime:
-        return min([each.start_time for each in self.data])
+        result = [each.start_time for each in self.data]
+        return min(result) if all(result) else None
 
     def get_end_time(self) -> datetime.datetime:
-        return max([each.end_time for each in self.data])
+        result = [each.end_time for each in self.data]
+        return max(result) if all(result) else None
 
     def get_duration(self) -> float:
         start = self.get_start_time()
