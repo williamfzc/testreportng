@@ -167,6 +167,10 @@ class NGResultOperator(object):
         return max([each.end_time for each in self.data])
 
     def get_duration(self) -> float:
+        start = self.get_start_time()
+        end = self.get_end_time()
+        if not (start or end):
+            return 0.0
         return (self.get_end_time() - self.get_start_time()).total_seconds()
 
     def summary(self) -> typing.Dict:
